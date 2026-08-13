@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="b236162a-5050-41b6-827f-8d9936a4ca0c" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="8608fd4d-a7fb-406e-8a36-942127097707" >
+		<http:request-connection host="jsonplaceholder.typicode.com" />
+	</http:request-config>
+	<flow name="mulesoft-dynatraceFlow" doc:id="117c8f45-e7a1-479d-92b8-d7a5b7933a3f" >
+		<http:listener doc:name="Listener" doc:id="37eeb8be-be4e-4349-a1fe-704e98baaede" config-ref="HTTP_Listener_config" path="/dynatrace"/>
+		<logger level="INFO" doc:name="Logger" doc:id="0de5d639-f4bc-43de-b7c0-1dd2f7a134a7" category="dynatrace.metrics" message="Test message1"/>
+		<http:request method="GET" doc:name="Request" doc:id="5e677b26-70b3-4048-bf05-3b951fd20d6d" config-ref="HTTP_Request_configuration" path="/todos/1"/>
+		<logger level="INFO" doc:name="Logger" doc:id="b8139264-d547-4913-b93c-108016f52032" category="dynatrace.metrics" message="Test message2"/>
+ 
+	
+	
+	</flow>
+</mule>

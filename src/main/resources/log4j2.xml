@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <!-- Keep your existing console/file appender -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%-5p %d [%t] [event: %X{correlationId}] %c: %m%n"/>
+        </Console>
+
+        <!-- New: forward structured logs to Dynatrace -->
+        <Http name="Dynatrace" url="https://ksy96102.live.dynatrace.com/api/v2/logs/ingest">
+            <Property name="Content-Type" value="application/json; charset=utf-8"/>
+            <Property name="Authorization" value="Api-Token XXX"/>
+            <JsonLayout properties="true" compact="true" eventEol="false">
+                <KeyValuePair key="content" value="$${event:Message}"/>
+                <KeyValuePair key="severity" value="$${event:Level}"/>
+                <KeyValuePair key="service.name" value="${sys:domain}"/>
+                <KeyValuePair key="deployment.environment" value="${env:MULE_ENV:-dev}"/>
+            </JsonLayout>
+        </Http>
+    </Appenders>
+
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="Dynatrace"/>
+        </Root>
+    </Loggers>
+</Configuration>
