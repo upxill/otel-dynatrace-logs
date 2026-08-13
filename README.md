@@ -1,0 +1,1 @@
+# otel-dynatrace-logs
